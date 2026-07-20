@@ -19,15 +19,40 @@ An attacker attempts to guess a user's password by repeatedly trying different p
 
 ## SPL Query
 
-```spl
-```
+**SPl for alert:
+index=wineventlog sourcetype="WinEventLog:Security" EventCode=4625
+| bin _time span=5m
+| stats count by _time, src_ip, Account_Name
+| where count >= 10
+| sort -count
+**Hunting Query:which Ips have more Fail Login:
+index=windows  EventCode=4625
+|stats count by Source_Network_Address
+|sort -count
+**Hunting Query:what users have finally succeeded in logging in after several failed attempts?
+index=windows (EventCode=4625 OR EventCode=4624)
+|stats
+count (eval(EventCode=4625)) as Failed 
+count (eval(EventCode=4624)) as Success 
+by Account_Name Source_Network_Address 
+|where Failed>=10 AND Success>0
 
 ## Detection Logic
-
+Detect multiple Windows failed logon events (Event ID 4625) from the same source IP or targeting the same account within a short period, indicating a possible brute-force attack.
 ## Expected Results
-
+ Source IP
+ Username
+ Hostname
+ Number of failed logons 
+ Time window
 ## False Positives
-
+ Users entering incorrect passwords repeatedly
+ Password expiration events
+ Service accounts with outdated credentials
+ Vulnerability scanners or security assessment tools
 ## Recommendations
-
+Investigate the source IP. Check for successful logons (Event ID 4624) after the failed attempts.
+ Lock or monitor the affected account. Enable MFA.
+ Block malicious IPs if confirmed.
 ## References
+
