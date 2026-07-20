@@ -25,17 +25,6 @@ index=wineventlog sourcetype="WinEventLog:Security" EventCode=4625
 | stats count by _time, src_ip, Account_Name
 | where count >= 10
 | sort -count
-**Hunting Query:which Ips have more Fail Login:
-index=windows  EventCode=4625
-|stats count by Source_Network_Address
-|sort -count
-**Hunting Query:what users have finally succeeded in logging in after several failed attempts?
-index=windows (EventCode=4625 OR EventCode=4624)
-|stats
-count (eval(EventCode=4625)) as Failed 
-count (eval(EventCode=4624)) as Success 
-by Account_Name Source_Network_Address 
-|where Failed>=10 AND Success>0
 
 ## Detection Logic
 Detect multiple Windows failed logon events (Event ID 4625) from the same source IP or targeting the same account within a short period, indicating a possible brute-force attack.
