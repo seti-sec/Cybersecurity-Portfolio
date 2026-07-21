@@ -19,10 +19,10 @@ An attacker attempts to guess a user's password by repeatedly trying different p
 
 ## SPL Query
 
-**SPl for alert:
+**Brute Force Detection for alert:
 index=wineventlog sourcetype="WinEventLog:Security" EventCode=4625
 | bin _time span=5m
-| stats count by _time, src_ip, Account_Name
+| stats count by _time, Account_Name , Source_Network_Address
 | where count >= 10
 | sort -count
 
