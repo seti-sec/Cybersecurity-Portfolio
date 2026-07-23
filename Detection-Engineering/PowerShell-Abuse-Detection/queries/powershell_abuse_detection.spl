@@ -1,1 +1,4 @@
-
+index=wineventlog (EventCode=4104 OR EventCode=4688)
+| search PowerShell OR powershell OR EncodedCommand OR FromBase64String
+| stats count values(Message) as commands values(Computer) as endpoints by User, src_ip, _time
+| where count >= 1
