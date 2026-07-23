@@ -45,7 +45,6 @@ T1059.001 - PowerShell
 ## Detection Logic
 
 Trigger an alert when:
-
 - PowerShell execution is detected
 - Script Block Logging contains suspicious keywords
 - Encoded PowerShell commands are executed
@@ -53,12 +52,22 @@ Trigger an alert when:
 - Unusual PowerShell activity is performed by a user or endpoint
 
 ## Query
-
 ### SPL (Splunk)
-
 The SPL detection rule is available here:
-
 [powershell_abuse_detection.spl](queries/powershell_abuse_detection.spl)
+### KQL (Microsoft Sentinel)
+```kql
+SecurityEvent
+| where EventID == 4104 or EventID == 4688
+| where CommandLine contains "powershell"
+    or ScriptBlockText contains "EncodedCommand"
+    or ScriptBlockText contains "FromBase64String"
+| summarize 
+    EventCount=count(),
+    Commands=make_set(CommandLine),
+    Scripts=make_set(ScriptBlockText)
+    by Account, Computer, bin(TimeGenerated, 5m)
+| where EventCount >= 1
 
 ## Investigation Steps
 
@@ -75,11 +84,9 @@ The SPL detection rule is available here:
 ## Detection Validation
 
 ### Test Data
-
 The detection was validated using simulated PowerShell event logs.
 Sample log file:
 [powershell_abuse_sample.json](samples/powershell_abuse_sample.json)
-
 ### Test Case
 
 ### Expected Result
