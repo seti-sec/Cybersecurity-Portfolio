@@ -64,6 +64,18 @@ SecurityEvent
 | where Computers > 3
 
 ## Investigation Steps
+## Detection Validation
+### Test Data
+The detection was validated using simulated lateral movement activity logs.
+Sample log file:
+[lateral_movement_activity.json](samples/lateral_movement_activity.json)
+### Test Case
+- Successful remote login detected
+- RDP connection observed
+- SMB access observed
+- Privileged account activity detected
+### Expected Result
+SIEM should generate a lateral movement alert when abnormal remote access behavior is correlated.
 
 ## Timeline
 
