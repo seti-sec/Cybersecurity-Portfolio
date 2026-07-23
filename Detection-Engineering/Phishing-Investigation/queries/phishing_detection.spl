@@ -1,1 +1,10 @@
-
+index=email_logs
+(EventID="EMAIL_RECEIVED" OR EventID="USER_CLICK")
+| eval risk_score=0
+| eval risk_score=if(match(Sender,"micros0ft"), risk_score+50, risk_score)
+| eval risk_score=if(match(URL,"login|verify|secure"), risk_score+30, risk_score)
+| stats values(Sender) as sender
+        values(URL) as urls
+        values(User) as users
+        max(risk_score) as risk_score
+| where risk_score >= 50
