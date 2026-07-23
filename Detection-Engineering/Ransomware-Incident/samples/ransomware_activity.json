@@ -1,1 +1,28 @@
-
+[
+  {
+    "EventID": "FILE_MODIFICATION",
+    "TimeGenerated": "2026-07-23T11:00:01Z",
+    "Computer": "WIN-CLIENT01",
+    "ProcessName": "unknown.exe",
+    "FilePath": "C:\\Users\\Public\\Documents\\report.docx",
+    "NewExtension": ".encrypted",
+    "Action": "File encrypted"
+  },
+  {
+    "EventID": "PROCESS_CREATION",
+    "TimeGenerated": "2026-07-23T11:00:05Z",
+    "Computer": "WIN-CLIENT01",
+    "ProcessName": "unknown.exe",
+    "ParentProcess": "explorer.exe",
+    "CommandLine": "unknown.exe -encrypt",
+    "Action": "Suspicious process execution"
+  },
+  {
+    "EventID": "NETWORK_CONNECTION",
+    "TimeGenerated": "2026-07-23T11:00:10Z",
+    "Computer": "WIN-CLIENT01",
+    "ProcessName": "unknown.exe",
+    "DestinationIP": "185.50.60.70",
+    "Action": "Outbound connection"
+  }
+]
