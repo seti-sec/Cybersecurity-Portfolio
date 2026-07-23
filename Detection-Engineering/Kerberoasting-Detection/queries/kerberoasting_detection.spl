@@ -1,1 +1,5 @@
-
+index=wineventlog EventCode=4769
+Ticket_Encryption_Type=0x17
+| bin _time span=5m
+| stats count as ticket_requests values(Service_Name) as spn_targets values(Client_Address) as source_ips by Account_Name, _time
+| where ticket_requests >= 10
