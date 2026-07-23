@@ -1,1 +1,30 @@
-
+[
+  {
+    "EventID": 4624,
+    "EventName": "Successful Logon",
+    "TimeGenerated": "2026-07-23T12:00:01Z",
+    "User": "administrator",
+    "SourceComputer": "WORKSTATION-01",
+    "DestinationComputer": "SERVER-01",
+    "LogonType": 10,
+    "Service": "RDP"
+  },
+  {
+    "EventID": 4624,
+    "EventName": "Successful Logon",
+    "TimeGenerated": "2026-07-23T12:05:01Z",
+    "User": "administrator",
+    "SourceComputer": "SERVER-01",
+    "DestinationComputer": "SERVER-02",
+    "LogonType": 3,
+    "Service": "SMB"
+  },
+  {
+    "EventID": 4672,
+    "EventName": "Special Privileges Assigned",
+    "TimeGenerated": "2026-07-23T12:05:05Z",
+    "User": "administrator",
+    "Computer": "SERVER-02",
+    "Privilege": "Administrator Rights"
+  }
+]
