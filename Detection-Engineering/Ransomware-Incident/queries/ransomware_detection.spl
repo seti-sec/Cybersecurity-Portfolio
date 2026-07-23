@@ -1,1 +1,9 @@
-
+index=endpoint_logs
+(EventID="FILE_MODIFICATION" OR EventID="PROCESS_CREATION" OR EventID="NETWORK_CONNECTION")
+| stats count as suspicious_events
+        values(EventID) as detected_activity
+        values(ProcessName) as processes
+        values(FilePath) as modified_files
+        values(DestinationIP) as destinations
+        by Computer
+| where suspicious_events >= 3
