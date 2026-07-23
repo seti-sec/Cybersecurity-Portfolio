@@ -48,20 +48,53 @@ Correlation examples:
 ## Query
 
 ### SPL (Splunk)
-
+The SPL detection rule is available here:
+[phishing_detection.spl](queries/phishing_detection.spl)
 ### KQL (Microsoft Sentinel)
+```kql
+EmailEvents
+| where Subject contains "verify"
+   or Subject contains "password"
+| where SenderFromDomain !endswith "company.com"
+| project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject
 
 ## Investigation Steps
-
+1. Analyze the suspicious email headers.
+2. Verify sender domain reputation.
+3. Extract and analyze URLs from the email.
+4. Check if the user clicked the suspicious link.
+5. Review authentication logs after the click.
+6. Determine whether credentials were compromised.
 ## Timeline
+| Time | Event |
+|---|---|
+| 09:30 | Suspicious phishing email received |
+| 09:35 | User clicked malicious URL |
+| 09:40 | SOC started investigation |
 
 ## Findings
+- Email originated from a suspicious domain.
+- URL was designed to harvest user credentials.
+- User interaction with the malicious link was detected.
+- No confirmed malware execution was observed.
 
 ## False Positives
+Possible false positives:
+- Legitimate security awareness training emails.
+- Internal emails containing verification links.
+- Newly registered company domains.
 
 ## Response / Mitigation
+- Block malicious sender domain.
+- Block malicious URL.
+- Reset compromised user credentials.
+- Investigate affected users.
+- Add indicators to security tools.
 
 ## Lessons Learned
+- User awareness is critical against phishing attacks.
+- Email filtering rules should be continuously improved.
+- Detection rules must correlate email and user activity.
 
 ## References
 
