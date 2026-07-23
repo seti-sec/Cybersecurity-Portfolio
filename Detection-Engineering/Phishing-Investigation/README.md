@@ -97,5 +97,22 @@ Possible false positives:
 - Detection rules must correlate email and user activity.
 
 ## References
+- MITRE ATT&CK - T1566 Phishing
+- Email Security Best Practices
+- Microsoft 365 Security Documentation
+
+## Detection Validation
+
+### Test Data
+The detection was validated using simulated phishing email events.
+Sample log file:
+[phishing_email.json](samples/phishing_email.json)
+### Test Case
+- Suspicious sender domain detected
+- Malicious URL found in email
+- User clicked suspicious link
+- Email and user activity correlated
+### Expected Result
+SIEM should generate a phishing alert when suspicious email indicators match the detection logic.
 
 ## Detection Validation
