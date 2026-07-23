@@ -58,17 +58,61 @@ DeviceFileEvents
 | where FileChanges > 100
 
 ## Investigation Steps
+1. Review the alert details and identify the affected endpoint.
+2. Analyze the suspicious process that performed file modifications.
+3. Check process creation logs and command-line activity.
+4. Review file modification events and identify affected files.
+5. Investigate network connections made by the suspicious process.
+6. Check if other endpoints show similar ransomware behavior.
+7. Determine the scope of impact and affected users.
+8. Collect forensic evidence for further analysis.
 
 ## Timeline
+| Time | Event ||---|---|| 11:00 | Suspicious process started modifying files || 11:00 | Multiple files received encrypted extensions || 11:00 | Suspicious outbound network connection detected || 11:05 | SOC investigation started |
 
 ## Findings
+- A suspicious executable performed high-volume file modifications.
+- Multiple files were encrypted and renamed.
+- The process created suspicious network communication.
+- Behavior matched ransomware activity patterns.
 
 ## False Positives
+- Legitimate backup software modifying many files.
+- Software updates changing multiple files.
+- File synchronization tools.
 
 ## Response / Mitigation
+- Isolate the affected endpoint from the network.
+- Stop the malicious process.
+- Collect forensic evidence.
+- Reset compromised credentials.
+- Restore files from clean backups.
+- Block indicators of compromise.
 
 ## Lessons Learned
+- MITRE ATT&CK T1486
+- Data Encrypted for Impact
+- Microsoft Security Documentation
+- Ransomware Detection Best Practices
 
 ## References
+1. Review the alert details and identify the affected endpoint.
+2. Analyze the suspicious process that performed file modifications.
+3. Check process creation logs and command-line activity.
+4. Review file modification events and identify affected files.
+5. Investigate network connections made by the suspicious process.
+6. Check if other endpoints show similar ransomware behavior.
+7. Determine the scope of impact and affected users.
+8. Collect forensic evidence for further analysis.
 
 ## Detection Validation
+### Test Data
+The detection was validated using simulated ransomware activity logs.
+Sample log file:
+[ransomware_activity.json](samples/ransomware_activity.json)
+### Test Case
+- Suspicious file encryption activity detected
+- Unknown process modifies multiple files
+- Process creates outbound network connection
+### Expected Result
+SIEM should generate a ransomware alert when multiple suspicious behaviors are correlated.
