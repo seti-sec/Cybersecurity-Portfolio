@@ -1,1 +1,17 @@
-
+[
+  {
+    "EventID": 4104,
+    "TimeCreated": "2026-07-23T11:00:15Z",
+    "Computer": "WIN10-CLIENT01",
+    "User": "COMPANY\\jdoe",
+    "ScriptBlockText": "powershell.exe -EncodedCommand SQBtAHAA..."
+  },
+  {
+    "EventID": 4688,
+    "TimeCreated": "2026-07-23T11:00:20Z",
+    "Computer": "WIN10-CLIENT01",
+    "User": "COMPANY\\jdoe",
+    "ProcessName": "powershell.exe",
+    "CommandLine": "powershell.exe -ExecutionPolicy Bypass -EncodedCommand SQBtAHAA..."
+  }
+]
