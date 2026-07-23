@@ -1,1 +1,7 @@
-
+index=wineventlog (EventID=4624 OR EventID=4672)
+| stats count as authentication_events
+        values(SourceComputer) as source_systems
+        values(DestinationComputer) as target_systems
+        values(Service) as services
+        by User
+| where authentication_events >= 2
