@@ -7,19 +7,7 @@
     "AccountName": "administrator",
     "SourceIP": "185.10.20.30",
     "LogonType": 10,
-    "Status": "0xC000006A",
-    "FailureReason": "Bad username or password"
-  },
-  {
-    "EventID": 4625,
-    "EventName": "Failed Logon",
-    "TimeGenerated": "2026-07-23T10:00:05Z",
-    "Computer": "WIN-SRV01",
-    "AccountName": "administrator",
-    "SourceIP": "185.10.20.30",
-    "LogonType": 10,
-    "Status": "0xC000006A",
-    "FailureReason": "Bad username or password"
+    "Status": "0xC000006A"
   },
   {
     "EventID": 4625,
@@ -29,7 +17,36 @@
     "AccountName": "administrator",
     "SourceIP": "185.10.20.30",
     "LogonType": 10,
-    "Status": "0xC000006A",
-    "FailureReason": "Bad username or password"
+    "Status": "0xC000006A"
+  },
+  {
+    "EventID": 4625,
+    "EventName": "Failed Logon",
+    "TimeGenerated": "2026-07-23T10:00:20Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "Status": "0xC000006A"
+  },
+  {
+    "EventID": 4625,
+    "EventName": "Failed Logon",
+    "TimeGenerated": "2026-07-23T10:01:00Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "Status": "0xC000006A"
+  },
+  {
+    "EventID": 4625,
+    "EventName": "Failed Logon",
+    "TimeGenerated": "2026-07-23T10:02:00Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "Status": "0xC000006A"
   }
 ]
