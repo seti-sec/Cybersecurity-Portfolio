@@ -1,1 +1,38 @@
-
+[
+  {
+    "EventID": 4769,
+    "TimeCreated": "2026-07-23T10:00:12Z",
+    "Computer": "DC01.company.local",
+    "Account_Name": "jdoe",
+    "Account_Domain": "COMPANY",
+    "Service_Name": "MSSQLSvc/sql01.company.local",
+    "Service_Principal_Name": "MSSQLSvc/sql01.company.local:1433",
+    "Client_Address": "192.168.1.45",
+    "Ticket_Encryption_Type": "0x17",
+    "Status": "0x0"
+  },
+  {
+    "EventID": 4769,
+    "TimeCreated": "2026-07-23T10:01:05Z",
+    "Computer": "DC01.company.local",
+    "Account_Name": "jdoe",
+    "Account_Domain": "COMPANY",
+    "Service_Name": "HTTP/web01.company.local",
+    "Service_Principal_Name": "HTTP/web01.company.local",
+    "Client_Address": "192.168.1.45",
+    "Ticket_Encryption_Type": "0x17",
+    "Status": "0x0"
+  },
+  {
+    "EventID": 4769,
+    "TimeCreated": "2026-07-23T10:02:20Z",
+    "Computer": "DC01.company.local",
+    "Account_Name": "jdoe",
+    "Account_Domain": "COMPANY",
+    "Service_Name": "CIFS/fileserver.company.local",
+    "Service_Principal_Name": "CIFS/fileserver.company.local",
+    "Client_Address": "192.168.1.45",
+    "Ticket_Encryption_Type": "0x17",
+    "Status": "0x0"
+  }
+]
