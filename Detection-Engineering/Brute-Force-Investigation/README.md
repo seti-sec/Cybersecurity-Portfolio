@@ -39,6 +39,9 @@ index=wineventlog EventCode=4625
 | bin _time span=5m
 | stats count as failed_attempts values(Account_Name) as usernames by src_ip,_time
 | where failed_attempts >= 10
+
+The SPL detection rule is available here:
+[brute_force_detection.spl](queries/brute_force_detection.spl)
 ### KQL (Microsoft Sentinel)
 SecurityEvent
 | where EventID == 4625
@@ -80,16 +83,28 @@ One successful login occurred after the brute force activity.
 ## References
 * MITRE ATT&CK T1110
 * Windows Security Event Documentation
-* Windows Security Event Documentation
 ## Detection Validation
-Test Case:
+## References
+
+- MITRE ATT&CK T1110
+- Windows Security Event Documentation
+
+
+## Detection Validation
+
+### Test Data
+The detection was validated using simulated Windows Security Event 4625 logs.
+Sample log file:
+[brute_force_failed_logon.json](samples/brute_force_failed_logon.json)
+
+### Test Case
 - Multiple failed logon attempts
 - Same source IP
-- Same or multiple user accounts
+- Targeted user account
 - Time window: 5 minutes
-- 
-Expected Result:
-SIEM should generate a brute force alert.
+
+### Expected Result
+SIEM should generate a brute force alert when the threshold is reached.
 
 ## References
 
