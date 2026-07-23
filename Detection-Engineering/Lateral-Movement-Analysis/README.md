@@ -64,6 +64,14 @@ SecurityEvent
 | where Computers > 3
 
 ## Investigation Steps
+1. Review the authentication events related to the alert.
+2. Identify the source and destination systems involved.
+3. Verify whether the user normally accesses these systems.
+4. Analyze RDP and SMB activity.
+5. Check for privileged account usage.
+6. Review additional endpoint and network logs.
+7. Determine whether the activity is legitimate or malicious.
+
 ## Detection Validation
 ### Test Data
 The detection was validated using simulated lateral movement activity logs.
@@ -78,15 +86,51 @@ Sample log file:
 SIEM should generate a lateral movement alert when abnormal remote access behavior is correlated.
 
 ## Timeline
+| Time | Event |
+|---|---|
+| 12:00 | User logged into SERVER-01 using RDP |
+| 12:05 | User accessed SERVER-02 through SMB |
+| 12:05 | Privileged access assigned |
+| 12:10 | SOC investigation started |
 
 ## Findings
+- A privileged account accessed multiple internal systems.
+- Remote services were used for movement inside the network.
+- The activity requires validation against normal user behavior.
+- Potential credential compromise should be investigated.
 
 ## False Positives
+Possible false positives:
+- System administrators performing maintenance.
+- IT support remote sessions.
+- Automated management tools.
 
 ## Response / Mitigation
+- Validate the user's identity and activity.
+- Disable compromised accounts if necessary.
+- Reset credentials.- Isolate affected systems.
+- Review access permissions.
+- Block malicious remote access paths.
 
 ## Lessons Learned
+- Remote services should be monitored continuously.
+- Privileged account activity requires additional verification.
+- Authentication events should be correlated across multiple systems.
+- Unusual user behavior can indicate credential compromise.
 
 ## References
+- MITRE ATT&CK T1021
+- Remote Services- MITRE ATT&CK T1550.002
+- Pass the Hash- Windows Security Event Documentation
 
 ## Detection Validation
+### Test Data
+The detection was validated using simulated lateral movement activity logs.
+Sample log file:
+lateral_movement_activity.json
+
+### Test Case
+- User authentication from an unusual source system- RDP remote access detected- SMB access between internal systems- Privileged account activity detected
+
+### Expected Result
+SIEM should generate a lateral movement alert when multiple suspicious authentication and remote access events are correlated.
