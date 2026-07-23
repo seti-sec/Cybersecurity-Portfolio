@@ -81,5 +81,14 @@ One successful login occurred after the brute force activity.
 * MITRE ATT&CK T1110
 * Windows Security Event Documentation
 * Windows Security Event Documentation
+## Detection Validation
+Test Case:
+- Multiple failed logon attempts
+- Same source IP
+- Same or multiple user accounts
+- Time window: 5 minutes
+- 
+Expected Result:
+SIEM should generate a brute force alert.
 
 ## References
