@@ -54,13 +54,10 @@ Trigger an alert when:
 ## Query
 
 ### SPL (Splunk)
-
-```spl
-index=wineventlog EventCode=4769
-Ticket_Encryption_Type=0x17
+The SPL detection rule is available here:
+[kerberoasting_detection.spl](queries/kerberoasting_detection.spl)
 
 ### KQL (Microsoft Sentinel)
-
 SecurityEvent
 | where EventID == 4769
 | where TicketEncryptionType == "0x17"
