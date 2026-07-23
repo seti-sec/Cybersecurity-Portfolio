@@ -1,1 +1,20 @@
-
+[
+  {
+    "EventID": "EMAIL_RECEIVED",
+    "TimeGenerated": "2026-07-23T09:30:00Z",
+    "Sender": "security-update@micros0ft-support.com",
+    "Recipient": "employee@company.com",
+    "Subject": "Urgent Account Verification Required",
+    "URL": "https://micros0ft-login-example.com/verify",
+    "Attachment": null,
+    "Risk": "High",
+    "Reason": "Suspicious sender domain and credential harvesting link"
+  },
+  {
+    "EventID": "USER_CLICK",
+    "TimeGenerated": "2026-07-23T09:35:00Z",
+    "User": "employee@company.com",
+    "URL": "https://micros0ft-login-example.com/verify",
+    "Action": "Clicked suspicious link"
+  }
+]
