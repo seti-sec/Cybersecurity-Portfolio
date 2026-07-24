@@ -46,7 +46,6 @@ Correlation examples:
 - User click event
 - Authentication activity after click
 ## Query
-
 ### SPL (Splunk)
 The SPL detection rule is available here:
 [phishing_detection.spl](queries/phishing_detection.spl)
