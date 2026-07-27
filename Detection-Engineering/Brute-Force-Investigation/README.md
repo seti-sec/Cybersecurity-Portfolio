@@ -32,6 +32,12 @@ Trigger an alert when:
 - From the same source IP
 - Against one or multiple accounts
 - Within 5 minutes
+
+## Detection Rules
+### Sigma Rule
+The Sigma detection rule is available here:
+[brute_force_detection_rule.yml](sigma/brute_force_detection_rule.yml)  
+
 ## Query
 
 ### SPL (Splunk)
