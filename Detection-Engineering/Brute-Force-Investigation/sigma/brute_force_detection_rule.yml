@@ -1,1 +1,38 @@
+title: Multiple Failed Windows Logon Attempts From Same Source IP
+id: brute-force-windows-logon-detection
+status: experimental
+description: Detects multiple failed Windows authentication attempts from the same source IP within a short time window.
 
+author: Star
+date: 2026-07-27
+
+logsource:
+  product: windows
+  service: security
+
+detection:
+  selection:
+    EventID: 4625
+
+  timeframe: 5m
+
+  condition: selection | count() by SourceIP >= 10
+
+fields:
+  - SourceIP
+  - AccountName
+  - Computer
+  - LogonType
+
+falsepositives:
+  - Users entering incorrect passwords
+  - Expired service account credentials
+  - VPN authentication failures
+
+level: medium
+
+tags:
+  - attack.credential_access
+  - attack.t1110
+  - attack.t1110.001
+  - attack.t1110.003
