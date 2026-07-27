@@ -7,7 +7,9 @@
     "AccountName": "administrator",
     "SourceIP": "185.10.20.30",
     "LogonType": 10,
-    "Status": "0xC000006A"
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
   },
   {
     "EventID": 4625,
@@ -17,7 +19,9 @@
     "AccountName": "administrator",
     "SourceIP": "185.10.20.30",
     "LogonType": 10,
-    "Status": "0xC000006A"
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
   },
   {
     "EventID": 4625,
@@ -27,7 +31,9 @@
     "AccountName": "administrator",
     "SourceIP": "185.10.20.30",
     "LogonType": 10,
-    "Status": "0xC000006A"
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
   },
   {
     "EventID": 4625,
@@ -37,7 +43,21 @@
     "AccountName": "administrator",
     "SourceIP": "185.10.20.30",
     "LogonType": 10,
-    "Status": "0xC000006A"
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
+  },
+  {
+    "EventID": 4625,
+    "EventName": "Failed Logon",
+    "TimeGenerated": "2026-07-23T10:01:20Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
   },
   {
     "EventID": 4625,
@@ -47,6 +67,66 @@
     "AccountName": "administrator",
     "SourceIP": "185.10.20.30",
     "LogonType": 10,
-    "Status": "0xC000006A"
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
+  },
+  {
+    "EventID": 4625,
+    "EventName": "Failed Logon",
+    "TimeGenerated": "2026-07-23T10:02:30Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
+  },
+  {
+    "EventID": 4625,
+    "EventName": "Failed Logon",
+    "TimeGenerated": "2026-07-23T10:03:00Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
+  },
+  {
+    "EventID": 4625,
+    "EventName": "Failed Logon",
+    "TimeGenerated": "2026-07-23T10:03:30Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
+  },
+  {
+    "EventID": 4625,
+    "EventName": "Failed Logon",
+    "TimeGenerated": "2026-07-23T10:04:00Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "AuthenticationPackage": "NTLM",
+    "Status": "0xC000006A",
+    "FailureReason": "Bad username or password"
+  },
+  {
+    "EventID": 4624,
+    "EventName": "Successful Logon",
+    "TimeGenerated": "2026-07-23T10:05:00Z",
+    "Computer": "WIN-SRV01",
+    "AccountName": "administrator",
+    "SourceIP": "185.10.20.30",
+    "LogonType": 10,
+    "AuthenticationPackage": "NTLM"
   }
 ]
