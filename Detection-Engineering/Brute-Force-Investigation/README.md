@@ -22,10 +22,10 @@ Important Event IDs:
 4625 - Failed Logon
 4624 - Successful Logon
 ## MITRE ATT&CK Mapping
-T1110 - Brute Force
+- T1110 - Brute Force
 Sub-techniques:
-T1110.001 - Password Guessing
-T1110.003 - Password Spraying
+- T1110.001 - Password Guessing
+- T1110.003 - Password Spraying
 ## Detection Logic
 Trigger an alert when:
 - More than 10 failed login attempts
@@ -83,12 +83,6 @@ One successful login occurred after the brute force activity.
 ## References
 * MITRE ATT&CK T1110
 * Windows Security Event Documentation
-## Detection Validation
-## References
-
-- MITRE ATT&CK T1110
-- Windows Security Event Documentation
-
 
 ## Detection Validation
 
@@ -102,7 +96,14 @@ Sample log file:
 - Same source IP
 - Targeted user account
 - Time window: 5 minutes
-
+- 
+## Detection Improvements
+Future improvements:
+- Add geo-location analysis
+- Detect impossible travel scenarios
+- Add threat intelligence enrichment
+- Correlate with successful authentication events
+  
 ### Expected Result
 SIEM should generate a brute force alert when the threshold is reached.
 
