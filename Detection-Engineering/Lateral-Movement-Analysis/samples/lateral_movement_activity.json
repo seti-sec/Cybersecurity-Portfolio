@@ -1,30 +1,27 @@
-[
-  {
-    "EventID": 4624,
-    "EventName": "Successful Logon",
-    "TimeGenerated": "2026-07-23T12:00:01Z",
-    "User": "administrator",
-    "SourceComputer": "WORKSTATION-01",
-    "DestinationComputer": "SERVER-01",
-    "LogonType": 10,
-    "Service": "RDP"
+{
+  "name": "Suspicious Lateral Movement via RDP",
+  "description": "Detects multiple Remote Desktop (RDP) logons from the same source host within a short period of time.",
+  "author": "Your Name",
+  "severity": "high",
+  "status": "production",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
   },
-  {
-    "EventID": 4624,
-    "EventName": "Successful Logon",
-    "TimeGenerated": "2026-07-23T12:05:01Z",
-    "User": "administrator",
-    "SourceComputer": "SERVER-01",
-    "DestinationComputer": "SERVER-02",
-    "LogonType": 3,
-    "Service": "SMB"
+  "detection": {
+    "selection": {
+      "EventID": 4624,
+      "LogonType": 10
+    },
+    "condition": "selection"
   },
-  {
-    "EventID": 4672,
-    "EventName": "Special Privileges Assigned",
-    "TimeGenerated": "2026-07-23T12:05:05Z",
-    "User": "administrator",
-    "Computer": "SERVER-02",
-    "Privilege": "Administrator Rights"
-  }
-]
+  "mitre": [
+    "T1021",
+    "T1021.001"
+  ],
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021",
+    "attack.t1021.001"
+  ]
+}
