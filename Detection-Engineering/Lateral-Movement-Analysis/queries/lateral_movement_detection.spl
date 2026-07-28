@@ -1,7 +1,4 @@
-index=wineventlog (EventID=4624 OR EventID=4672)
-| stats count as authentication_events
-        values(SourceComputer) as source_systems
-        values(DestinationComputer) as target_systems
-        values(Service) as services
-        by User
-| where authentication_events >= 2
+index=wineventlog EventCode=4624 Logon_Type=10
+| bin _time span=10m
+| stats count as rdp_logons values(Account_Name) as usernames values(ComputerName) as destination_hosts by WorkstationName,_time
+| where rdp_logons >= 3
