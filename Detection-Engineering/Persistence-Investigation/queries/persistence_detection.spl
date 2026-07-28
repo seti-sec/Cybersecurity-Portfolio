@@ -1,1 +1,3 @@
-
+index=wineventlog (EventCode=4698 OR EventCode=4702 OR EventCode=4699)
+| stats count values(Task_Name) values(SubjectUserName) values(TaskContent) by ComputerName EventCode
+| where count >= 1
