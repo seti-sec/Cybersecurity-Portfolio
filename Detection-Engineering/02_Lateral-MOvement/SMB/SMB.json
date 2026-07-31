@@ -1,1 +1,29 @@
-
+{
+  "name": "Suspicious Lateral Movement via SMB",
+  "description": "Detects suspicious SMB share access from an internal host using privileged credentials.",
+  "author": "Your Name",
+  "severity": "high",
+  "status": "production",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
+  },
+  "detection": {
+    "selection": {
+      "EventID": [
+        5140,
+        5145
+      ]
+    },
+    "condition": "selection"
+  },
+  "mitre": [
+    "T1021",
+    "T1021.002"
+  ],
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021",
+    "attack.t1021.002"
+  ]
+}
