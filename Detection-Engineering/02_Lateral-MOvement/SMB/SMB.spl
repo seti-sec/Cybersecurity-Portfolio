@@ -1,1 +1,7 @@
-
+index=wineventlog (EventCode=5140 OR EventCode=5145)
+| stats count as smb_access
+  values(Account_Name) as usernames 
+  values(Share_Name) as accessed_shares 
+  values(ComputerName) as destination_hosts 
+  by WorkstationName,_time
+| where smb_access >= 3
