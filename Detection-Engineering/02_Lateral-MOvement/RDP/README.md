@@ -1,164 +1,197 @@
-# Lateral Movement Investigation - SMB
+پيشنهاد جديد:
+# Lateral Movement Investigation
 
 ## Objective
-Detect and investigate potential lateral movement activity by identifying suspicious Server Message Block (SMB) connections and file share access between internal systems.
+Detect and investigate potential lateral movement activity by identifying suspicious Remote Desktop Protocol (RDP) connections between internal systems.
+
+---
 
 ## Incident Scenario
-A workstation was compromised after a phishing attack. The attacker used stolen administrator credentials to access internal SMB shares and move tools or malicious files across the network in an attempt to expand access within the environment.
+A workstation was compromised following a phishing attack. The attacker obtained privileged credentials and used Remote Desktop Protocol (RDP) to access multiple internal servers, attempting to expand control within the environment.
+
+---
 
 ## Environment
 - Windows Server 2022
 - Windows Security Logs
 - Splunk Enterprise
-- Universal Forwarder
+- Splunk Universal Forwarder
 - Sysmon
 
-## Data Sources / Log Sources
-The investigation uses:
-- Windows Security Event Logs
-- SMB Operational Logs
+---
+
+## ATT&CK Mapping
+
+**Technique**
+- T1021 – Remote Services
+
+**Sub-technique**
+- T1021.001 – Remote Desktop Protocol (RDP)
+
+---
+
+## ATT&CK Data Sources
+
+- Logon Session
+- Authentication Logs
+- Network Traffic
+- Process Creation (Sysmon)
+
+---
+
+## Log Sources
+
+- Windows Security Logs
+- Terminal Services Logs
 - Sysmon Logs
 - Firewall Logs
 
-Important Event IDs:
+### Important Event IDs
 
-- 4624 - Successful Logon
-- 4625 - Failed Logon
-- 4648 - Logon with Explicit Credentials
-- 5140 - Network Share Object Accessed
-- 5145 - Detailed File Share Access Check
+| Event ID | Description |
+|----------|-------------|
+| 4624 | Successful Logon |
+| 4625 | Failed Logon |
+| 4648 | Logon with Explicit Credentials |
+| 4778 | RDP Session Reconnected |
+| 4779 | RDP Session Disconnected |
 
-## MITRE ATT&CK Mapping
-
-- T1021 - Remote Services
-
-Sub-techniques:
-
-- T1021.002 - SMB/Windows Admin Shares
+---
 
 ## Detection Logic
 
-Trigger an alert when:
+Generate an alert when one or more of the following conditions are observed:
 
-- SMB access originates from an unusual internal host
-- Administrative shares such as ADMIN$, C$, IPC$ are accessed
-- A privileged account accesses multiple systems within a short period
-- Multiple SMB connections occur in a short time window
-- Suspicious file transfers are detected through SMB shares
+- Successful RDP logon (Logon Type 10)
+- Multiple RDP sessions within a short time window
+- Connections originating from an unusual internal host
+- Privileged account authentication from unexpected systems
+
+---
 
 ## Detection Rules
 
-### Sigma Rule
-
-The Sigma detection rule is available here:
+### Sigma
 
 ```
-Sigma/smb.yml
+sigma/lateral_movement_detection_rule.yml
 ```
 
-## Query
-
-### SPL (Splunk)
+### Splunk (SPL)
 
 ```spl
-index=wineventlog (EventCode=5140 OR EventCode=5145)
-| stats count values(Share_Name) as shares values(Account_Name) as usernames by WorkstationName, ComputerName
+index=wineventlog EventCode=4624 Logon_Type=10
+| bucket span=10m _time
+| stats count values(Account_Name) as usernames values(WorkstationName) as SourceHost by ComputerName _time
 | where count >= 3
 ```
 
-The SPL detection rule is available here:
-
 ```
-queries/smb.spl
+queries/lateral_movement_detection.spl
 ```
 
-### KQL (Microsoft Sentinel)
+### Microsoft Sentinel (KQL)
 
 ```kql
 SecurityEvent
-| where EventID in (5140,5145)
-| summarize ShareAccess=count(), Shares=make_set(ShareName)
-by Account, IpAddress, Computer, bin(TimeGenerated, 10m)
-| where ShareAccess >= 3
+| where EventID == 4624
+| where LogonType == 10
+| summarize LogonCount=count(), Hosts=make_set(Computer)
+by Account, IpAddress, bin(TimeGenerated, 10m)
+| where LogonCount >= 3
 ```
+
+---
 
 ## Investigation Steps
 
-1. Identify the source workstation accessing SMB.
-2. Identify the destination server and accessed share.
+1. Identify the source host.
+2. Identify the destination host(s).
 3. Review the account used for authentication.
-4. Check accessed files and transferred objects.
-5. Verify whether the activity was authorized.
+4. Verify whether the activity was authorized.
+5. Correlate with previous authentication events.
+6. Review Sysmon Process Creation events.
+7. Check for PowerShell execution or suspicious services.
+8. Determine whether additional lateral movement occurred.
+
+---
+
+## Indicators of Compromise (IOCs)
+
+- Multiple RDP logons within a short period
+- Administrative account used across multiple hosts
+- Authentication from an unusual workstation
+- Access to multiple internal systems
+
+---
 
 ## Timeline
 
-```
-10:00 - Initial workstation compromise
-10:08 - SMB connection detected
-10:12 - Multiple administrative shares accessed
-10:15 - SIEM alert generated
-```
+| Time | Activity |
+|------|----------|
+| 10:00 | Initial workstation compromise |
+| 10:08 | First RDP connection detected |
+| 10:12 | Multiple RDP sessions observed |
+| 10:15 | SIEM alert generated |
+
+---
 
 ## Findings
 
-The investigation identified suspicious SMB access from a compromised workstation using privileged credentials, indicating possible lateral movement activity.
+The investigation identified multiple successful RDP logons from a compromised workstation to several internal servers using a privileged account, indicating potential lateral movement.
+
+---
 
 ## False Positives
 
 - System administrators
-- Backup operations
-- File server maintenance
-- Authorized software deployment
+- Helpdesk remote support
+- Authorized maintenance activities
+- Automated administration tools
+
+---
+
+## Severity
+
+| Level | Condition |
+|-------|-----------|
+| Medium | Single suspicious RDP session |
+| High | Multiple RDP sessions across hosts |
+| Critical | Privileged account performing lateral movement |
+
+---
 
 ## Response / Mitigation
 
-- Isolate the compromised host
+- Isolate the compromised workstation
 - Reset compromised credentials
-- Restrict unnecessary SMB access
-- Disable unused administrative shares
-- Monitor privileged account activity
+- Restrict RDP access
+- Review privileged account activity
+- Enable Multi-Factor Authentication (MFA)
+- Review firewall and segmentation policies
 
-## Lessons Learned
-
-- Limit SMB exposure
-- Monitor administrative share access
-- Apply least privilege principles
-- Segment internal networks
-
-## References
-
-- MITRE ATT&CK T1021.002
-- Windows Security Event Documentation
+---
 
 ## Detection Validation
 
 ### Test Data
 
-The detection was validated using simulated Windows Security Event 5140 and 5145 logs.
-
-Sample log file:
+The detection was validated using simulated Windows Security Event 4624 logs.
 
 ```
-Samples/smb.json
+samples/lateral_movement_activity.json
 ```
 
-## Test Case
+### Test Case
 
-- SMB connection detected
-- Administrative share access
-- Privileged account usage
-- Multiple internal hosts
-- Time window: 10 minutes
+- Successful RDP logon
+- Logon Type 10
+- Administrative account
+- Multiple destination hosts
+- Detection window: 10 minutes
+
+---
 
 ## Detection Improvements
 
-Future improvements:
-
-- Detect PsExec activity over SMB
-- Correlate SMB activity with process creation
-- Detect suspicious file execution after transfer
-- Integrate threat intelligence
-
-## Expected Result
-
-SIEM should generate a lateral movement alert when suspicious SMB activity is detected.
+Future
