@@ -1,1 +1,7 @@
-
+index=wineventlog (EventCode=4624 OR EventCode=4688)
+| search ProcessName="*winrm*" OR ServiceName="WinRM"
+| stats count as winrm_activity
+  values(Account_Name) as usernames
+  values(ComputerName) as destination_hosts 
+  by WorkstationName,_time
+| where winrm_activity >= 2
