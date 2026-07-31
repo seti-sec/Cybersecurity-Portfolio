@@ -1,0 +1,7 @@
+index=wineventlog (EventCode=4624 OR EventCode=4648)
+| search AuthenticationPackageName=NTLM
+| stats count as ntlm_auth 
+  values(Account_Name) as usernames
+  values(ComputerName) as destination_hosts
+  by WorkstationName,_time
+| where ntlm_auth >= 2
