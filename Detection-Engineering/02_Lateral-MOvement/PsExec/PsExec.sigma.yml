@@ -1,1 +1,39 @@
+title: Suspicious Lateral Movement via PsExec
+id: 9c6e5f4a-7d83-4e10-a9f4-5b8c9d0e4444
+status: experimental
+description: Detects suspicious service creation and remote process execution commonly associated with PsExec.
+author: Your Name
+date: 2026/07/30
 
+references:
+  - https://attack.mitre.org/techniques/T1569/002/
+
+logsource:
+  product: windows
+  service: system
+
+detection:
+
+  selection:
+    EventID:
+      - 7045
+
+  selection_process:
+    EventID:
+      - 4688
+    CommandLine|contains:
+      - "psexec"
+      - "PSEXESVC"
+
+  condition: selection or selection_process
+
+falsepositives:
+  - System administrators
+  - Software deployment tools
+  - Remote management solutions
+
+level: high
+
+tags:
+  - attack.lateral_movement
+  - attack.t1569.002
