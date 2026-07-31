@@ -1,1 +1,29 @@
-
+{
+  "name": "Suspicious Lateral Movement via WinRM",
+  "description": "Detects suspicious Windows Remote Management (WinRM) activity that may indicate lateral movement.",
+  "author": "Your Name",
+  "severity": "high",
+  "status": "production",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
+  },
+  "detection": {
+    "selection": {
+      "EventID": [
+        4624,
+        4688
+      ]
+    },
+    "condition": "selection"
+  },
+  "mitre": [
+    "T1021",
+    "T1021.006"
+  ],
+  "tags": [
+    "attack.lateral_movement",
+    "attack.t1021",
+    "attack.t1021.006"
+  ]
+}
