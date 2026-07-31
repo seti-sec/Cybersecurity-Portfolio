@@ -1,1 +1,35 @@
+title: Suspicious Lateral Movement via SMB
+id: 7a4c3f2e-5b61-4c9d-a8e2-3f6b7c8d2222
+status: experimental
+description: Detects suspicious SMB share access that may indicate lateral movement activity.
+author: Your Name
+date: 2026/07/30
 
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+
+logsource:
+  product: windows
+  service: security
+
+detection:
+
+  selection:
+    EventID:
+      - 5140
+      - 5145
+
+  condition: selection
+
+falsepositives:
+  - System administrators
+  - Backup services
+  - File server maintenance
+  - Software deployment tools
+
+level: medium
+
+tags:
+  - attack.lateral_movement
+  - attack.t1021
+  - attack.t1021.002
