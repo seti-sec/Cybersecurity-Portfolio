@@ -74,7 +74,7 @@ Generate an alert when one or more of the following conditions are observed:
 ### Sigma
 
 ```
-sigma/lateral_movement_detection_rule.yml
+RDP.sigma.yml
 ```
 
 ### Splunk (SPL)
@@ -87,7 +87,7 @@ index=wineventlog EventCode=4624 Logon_Type=10
 ```
 
 ```
-queries/lateral_movement_detection.spl
+RDP.spl
 ```
 
 ### Microsoft Sentinel (KQL)
@@ -179,7 +179,7 @@ The investigation identified multiple successful RDP logons from a compromised w
 The detection was validated using simulated Windows Security Event 4624 logs.
 
 ```
-samples/lateral_movement_activity.json
+RDP.json
 ```
 
 ### Test Case
