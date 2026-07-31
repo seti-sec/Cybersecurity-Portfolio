@@ -1,1 +1,7 @@
-
+index=wineventlog (EventCode=7045 OR EventCode=4688)
+| search ServiceName="PSEXESVC" OR CommandLine="*psexec*"
+| stats count as psexec_activity
+  values(Account_Name) as usernames 
+  values(ComputerName) as destination_hosts 
+  by WorkstationName,_time
+| where psexec_activity >= 1
