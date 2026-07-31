@@ -1,4 +1,0 @@
-index=wineventlog EventCode=4624 Logon_Type=10
-| bin _time span=10m
-| stats count as rdp_logons values(Account_Name) as usernames values(ComputerName) as destination_hosts by WorkstationName,_time
-| where rdp_logons >= 3
