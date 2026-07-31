@@ -1,0 +1,35 @@
+title: Suspicious Lateral Movement via Pass-the-Hash
+id: af7d6e5b-8c94-4f21-a0b5-6c9d0e1f5555
+status: experimental
+description: Detects suspicious NTLM authentication activity that may indicate Pass-the-Hash lateral movement.
+author: Your Name
+date: 2026/07/30
+
+references:
+  - https://attack.mitre.org/techniques/T1550/002/
+
+logsource:
+  product: windows
+  service: security
+
+detection:
+
+  selection:
+    EventID:
+      - 4624
+      - 4648
+    AuthenticationPackageName: NTLM
+
+  condition: selection
+
+falsepositives:
+  - Legacy applications using NTLM
+  - Domain administration activities
+  - Authorized remote management
+
+level: high
+
+tags:
+  - attack.lateral_movement
+  - attack.t1550
+  - attack.t1550.002
