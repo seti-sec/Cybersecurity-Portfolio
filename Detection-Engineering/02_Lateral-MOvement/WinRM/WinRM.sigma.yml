@@ -1,1 +1,34 @@
+title: Suspicious Lateral Movement via WinRM
+id: 8b5d4e3f-6c72-4d9e-b9f3-4a7c8d9e3333
+status: experimental
+description: Detects suspicious WinRM remote execution activity that may indicate lateral movement.
+author: Your Name
+date: 2026/07/30
 
+references:
+  - https://attack.mitre.org/techniques/T1021/006/
+
+logsource:
+  product: windows
+  service: security
+
+detection:
+
+  selection:
+    EventID:
+      - 4624
+      - 4688
+
+  condition: selection
+
+falsepositives:
+  - System administrators
+  - Remote management tools
+  - Authorized automation tasks
+
+level: medium
+
+tags:
+  - attack.lateral_movement
+  - attack.t1021
+  - attack.t1021.006
