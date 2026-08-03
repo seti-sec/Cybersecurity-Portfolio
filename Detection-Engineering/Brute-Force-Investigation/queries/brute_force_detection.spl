@@ -1,7 +1,0 @@
-index=wineventlog EventCode=4625
-| eval src_ip=SourceIP
-| eval user=AccountName
-| bin _time span=5m
-| stats count as failed_attempts values(user) as targeted_users values(Computer) as affected_hosts by src_ip,_time
-| where failed_attempts >= 10
-| table _time src_ip failed_attempts targeted_users affected_hosts
