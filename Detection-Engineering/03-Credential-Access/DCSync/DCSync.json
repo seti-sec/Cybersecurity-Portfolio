@@ -1,0 +1,27 @@
+{
+  "name": "Suspicious DCSync Activity",
+  "description": "Detects suspicious directory replication requests that may indicate DCSync credential theft.",
+  "author": "Your Name",
+  "severity": "high",
+  "status": "production",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 4662,
+      "AccessMask": "0x100"
+    },
+    "condition": "selection"
+  },
+  "mitre": [
+    "T1003",
+    "T1003.006"
+  ],
+  "tags": [
+    "attack.credential_access",
+    "attack.t1003",
+    "attack.t1003.006"
+  ]
+}
