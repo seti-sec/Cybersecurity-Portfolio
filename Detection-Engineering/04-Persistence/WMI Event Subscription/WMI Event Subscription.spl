@@ -1,0 +1,6 @@
+index=sysmon EventCode=19
+| stats count as wmi_subscription 
+  values(Operation) as operations 
+  values(User) as users 
+  by Computer,_time
+| where count >= 1
