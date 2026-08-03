@@ -36,7 +36,7 @@ Trigger an alert when:
 ## Detection Rules
 ### Sigma Rule
 The Sigma detection rule is available here:
-[brute_force_detection_rule.yml](sigma/brute_force_detection_rule.yml)  
+[Brute-Force.sigma.yml](Brute-Force.sigma.yml)  
 
 ## Query
 
@@ -47,7 +47,7 @@ index=wineventlog EventCode=4625
 | where failed_attempts >= 10
 
 The SPL detection rule is available here:
-[brute_force_detection.spl](queries/brute_force_detection.spl)
+[Brute-Force.spl](Brute-Force.spl)
 ### KQL (Microsoft Sentinel)
 SecurityEvent
 | where EventID == 4625
@@ -95,7 +95,7 @@ A successful authentication event was observed after the brute force activity, w
 ### Test Data
 The detection was validated using simulated Windows Security Event 4625 logs.
 Sample log file:
-[brute_force_failed_logon.json](samples/brute_force_failed_logon.json)
+[Brute-Force.json](Brute-Force.json)
 
 ### Test Case
 - Multiple failed logon attempts
