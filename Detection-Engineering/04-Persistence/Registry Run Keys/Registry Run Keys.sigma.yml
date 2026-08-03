@@ -1,1 +1,35 @@
+title: Suspicious Registry Run Keys Modification
+id: f7a8b9c0-5555-6666-cccc-123456abcdef
+status: experimental
+description: Detects modifications to Registry Run Keys that may indicate persistence activity.
+author: Your Name
+date: 2026/07/30
 
+references:
+  - https://attack.mitre.org/techniques/T1547/001/
+
+logsource:
+  product: windows
+  service: sysmon
+
+detection:
+
+  selection:
+    EventID: 13
+    TargetObject|contains:
+      - '\Run'
+      - '\RunOnce'
+
+  condition: selection
+
+falsepositives:
+  - Legitimate software installation
+  - Enterprise management tools
+  - System updates
+
+level: high
+
+tags:
+  - attack.persistence
+  - attack.t1547
+  - attack.t1547.001
