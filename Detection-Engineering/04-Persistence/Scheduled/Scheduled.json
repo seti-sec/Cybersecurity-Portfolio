@@ -1,0 +1,26 @@
+{
+  "name": "Suspicious Persistence via Scheduled Task",
+  "description": "Detects suspicious scheduled task creation that may be used for persistence.",
+  "author": "Your Name",
+  "severity": "high",
+  "status": "production",
+  "logsource": {
+    "product": "windows",
+    "service": "security"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 4698
+    },
+    "condition": "selection"
+  },
+  "mitre": [
+    "T1053",
+    "T1053.005"
+  ],
+  "tags": [
+    "attack.persistence",
+    "attack.t1053",
+    "attack.t1053.005"
+  ]
+}
