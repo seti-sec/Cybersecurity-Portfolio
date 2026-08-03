@@ -1,0 +1,32 @@
+title: Suspicious Scheduled Task Creation
+id: e5f6a7b8-4444-5555-bbbb-abcdef987654
+status: experimental
+description: Detects creation of scheduled tasks that may be used for persistence.
+author: Your Name
+date: 2026/07/30
+
+references:
+  - https://attack.mitre.org/techniques/T1053/005/
+
+logsource:
+  product: windows
+  service: security
+
+detection:
+
+  selection:
+    EventID: 4698
+
+  condition: selection
+
+falsepositives:
+  - System administrators
+  - Software deployment tools
+  - Enterprise automation
+
+level: medium
+
+tags:
+  - attack.persistence
+  - attack.t1053
+  - attack.t1053.005
