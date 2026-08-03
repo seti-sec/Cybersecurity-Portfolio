@@ -1,2 +1,0 @@
-index=wineventlog (EventCode=4672 OR EventCode=4728 OR EventCode=4732)
-| stats count values(Account_Name) values(Member_Name) by ComputerName EventCode
