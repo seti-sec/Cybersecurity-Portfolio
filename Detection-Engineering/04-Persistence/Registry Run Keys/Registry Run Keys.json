@@ -1,0 +1,27 @@
+{
+  "name": "Suspicious Persistence via Registry Run Keys",
+  "description": "Detects suspicious modifications to Windows Registry Run Keys that may be used for persistence.",
+  "author": "Your Name",
+  "severity": "high",
+  "status": "production",
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 13,
+      "TargetObject": "Run"
+    },
+    "condition": "selection"
+  },
+  "mitre": [
+    "T1547",
+    "T1547.001"
+  ],
+  "tags": [
+    "attack.persistence",
+    "attack.t1547",
+    "attack.t1547.001"
+  ]
+}
