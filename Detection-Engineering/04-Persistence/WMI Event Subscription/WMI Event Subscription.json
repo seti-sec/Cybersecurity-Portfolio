@@ -1,0 +1,26 @@
+{
+  "name": "Suspicious Persistence via WMI Event Subscription",
+  "description": "Detects suspicious WMI event subscription activity that may be used for persistence.",
+  "author": "Your Name",
+  "severity": "high",
+  "status": "production",
+  "logsource": {
+    "product": "windows",
+    "service": "sysmon"
+  },
+  "detection": {
+    "selection": {
+      "EventID": 19
+    },
+    "condition": "selection"
+  },
+  "mitre": [
+    "T1546",
+    "T1546.003"
+  ],
+  "tags": [
+    "attack.persistence",
+    "attack.t1546",
+    "attack.t1546.003"
+  ]
+}
