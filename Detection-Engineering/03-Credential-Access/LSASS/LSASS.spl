@@ -1,0 +1,6 @@
+index=sysmon EventCode=10 TargetImage="*\\lsass.exe"
+| stats count as lsass_access 
+  values(SourceImage) as source_process 
+  values(User) as users
+  by Computer,_time
+| where count >= 1
