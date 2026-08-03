@@ -1,0 +1,7 @@
+index=sysmon EventCode=13
+| search TargetObject="*\\Run*" OR TargetObject="*\\RunOnce*"
+| stats count as registry_changes 
+  values(TargetObject) as registry_keys
+  values(Image) as processes
+  by Computer,_time
+| where count >= 1
