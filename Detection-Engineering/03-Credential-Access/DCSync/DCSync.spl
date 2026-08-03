@@ -1,0 +1,6 @@
+index=wineventlog EventCode=4662 AccessMask=0x100
+| stats count as replication_activity 
+  values(Account_Name) as usernames 
+  values(Object_Name) as objects 
+  by ComputerName,_time
+| where count >= 1
