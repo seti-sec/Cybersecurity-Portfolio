@@ -1,0 +1,32 @@
+title: Suspicious WMI Event Subscription Persistence
+id: a1b2c3d4-7777-8888-dddd-987654fedcba
+status: experimental
+description: Detects suspicious WMI event subscription creation that may indicate persistence activity.
+author: Your Name
+date: 2026/07/30
+
+references:
+  - https://attack.mitre.org/techniques/T1546/003/
+
+logsource:
+  product: windows
+  service: sysmon
+
+detection:
+
+  selection:
+    EventID: 19
+
+  condition: selection
+
+falsepositives:
+  - Enterprise management software
+  - Monitoring solutions
+  - System administration tools
+
+level: high
+
+tags:
+  - attack.persistence
+  - attack.t1546
+  - attack.t1546.003
