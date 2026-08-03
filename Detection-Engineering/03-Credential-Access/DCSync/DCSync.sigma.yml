@@ -1,0 +1,33 @@
+title: Suspicious DCSync Activity
+id: d4e5f6a7-3333-4444-aaaa-123456789abc
+status: experimental
+description: Detects suspicious Active Directory replication requests that may indicate DCSync credential theft.
+author: Your Name
+date: 2026/07/30
+
+references:
+  - https://attack.mitre.org/techniques/T1003/006/
+
+logsource:
+  product: windows
+  service: security
+
+detection:
+
+  selection:
+    EventID: 4662
+    AccessMask: "0x100"
+
+  condition: selection
+
+falsepositives:
+  - Domain controllers
+  - Authorized directory replication
+  - Active Directory management tools
+
+level: high
+
+tags:
+  - attack.credential_access
+  - attack.t1003
+  - attack.t1003.006
