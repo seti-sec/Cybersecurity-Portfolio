@@ -1,0 +1,6 @@
+index=wineventlog EventCode=4698
+| stats count as scheduled_task_creation
+  values(Task_Name) as tasks 
+  values(Account_Name) as users
+  by ComputerName,_time
+| where count >= 1
