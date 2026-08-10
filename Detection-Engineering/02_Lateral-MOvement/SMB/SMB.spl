@@ -1,4 +1,5 @@
 index=wineventlog (EventCode=5140 OR EventCode=5145)
+| bin _time span=10m
 | stats count as smb_access
   values(Account_Name) as usernames 
   values(Share_Name) as accessed_shares 
