@@ -1,6 +1,47 @@
+*********************************************simple**********************************************
 index=sysmon EventCode=10 TargetImage="*\\lsass.exe"
 | stats count as lsass_access 
   values(SourceImage) as source_process 
   values(User) as users
   by Computer,_time
-| where count >= 1
+| where lsass_access >= 1
+
+*********************************************complete**********************************************
+index=sysmon EventCode=10 TargetImage="*\\lsass.exe"
+| eval source_process=lower(SourceImage)
+| stats count as lsass_access
+    values(SourceImage) as source_process
+    values(User) as users
+    values(GrantedAccess) as access_rights
+    by Computer,_time
+| where lsass_access >= 1
+| table _time Computer users source_process access_rights lsass_access
+| sort - _time
+
+*********************************************complicated**********************************************
+index=sysmon EventCode=10 TargetImage="*\\lsass.exe"
+| eval source_process=lower(SourceImage)
+| eval process_name=lower(mvindex(split(SourceImage,"\\"),-1))
+| stats count as lsass_access
+    values(SourceImage) as source_process
+    values(User) as users
+    values(GrantedAccess) as access_rights
+    by Computer,process_name,_time
+| eval suspicious_source=if(
+    match(process_name,
+    "^(rundll32|powershell|pwsh|cmd|wmic|cscript|wscript|mshta|regsvr32|procdump|procdump64)\\.exe$"),
+    1,0
+)
+| eval risk_score=
+      40
+    + if(suspicious_source=1,30,0)
+    + if(lsass_access>=3,10,0)
+| eval severity=case(
+    risk_score>=70,"high",
+    risk_score>=50,"medium",
+    true(),"low"
+)
+| table _time Computer users process_name source_process
+        access_rights lsass_access suspicious_source
+        risk_score severity
+| sort - risk_score
