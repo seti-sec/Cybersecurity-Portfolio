@@ -1,6 +1,58 @@
+simple:
 index=wineventlog EventCode=4662 AccessMask=0x100
 | stats count as replication_activity 
   values(Account_Name) as usernames 
   values(Object_Name) as objects 
   by ComputerName,_time
 | where replication_activity >= 1
+
+
+complete:
+index=wineventlog EventCode=4662 AccessMask=0x100
+    (Properties="*DS-Replication-Get-Changes*"
+     OR Properties="*DS-Replication-Get-Changes-All*"
+     OR Properties="*DS-Replication-Get-Changes-In-Filtered-Set*")
+| stats count as replication_activity
+    values(Account_Name) as usernames
+    values(Object_Name) as objects
+    values(Properties) as replication_rights
+    by ComputerName,_time
+| where replication_activity >= 1
+| eval severity=case(
+    replication_activity >= 10, "high",
+    replication_activity >= 5, "medium",
+    true(), "low"
+)
+| table _time ComputerName usernames objects replication_rights replication_activity severity
+| sort - _time
+
+
+complex:
+index=wineventlog EventCode=4662 AccessMask=0x100
+    (Properties="*DS-Replication-Get-Changes*"
+     OR Properties="*DS-Replication-Get-Changes-All*"
+     OR Properties="*DS-Replication-Get-Changes-In-Filtered-Set*")
+| eval account=lower(Account_Name)
+| eval dc=lower(ComputerName)
+| stats
+    count as replication_activity
+    values(Account_Name) as usernames
+    values(Object_Name) as objects
+    values(Properties) as replication_rights
+    by account dc _time
+| where replication_activity >= 1
+| lookup dcsync_allowed_accounts Account_Name as account
+    OUTPUT Account_Name as allowed_account
+| eval unexpected_account=if(isnull(allowed_account),1,0)
+| eval risk_score=
+    (unexpected_account * 50)
+    + if(replication_activity >= 10,30,0)
+    + if(replication_activity >= 5,15,0)
+| eval severity=case(
+    risk_score >= 70,"high",
+    risk_score >= 40,"medium",
+    true(),"low"
+)
+| table _time dc account usernames objects replication_rights
+    replication_activity unexpected_account risk_score severity
+| sort - risk_score
