@@ -26,6 +26,74 @@ index=wineventlog EventCode=4662 AccessMask=0x100
 | table _time ComputerName usernames objects replication_rights replication_activity severity
 | sort - _time
 
+offffffffffffffff:more complicated:
+(
+    search index=wineventlog EventCode=4662 AccessMask=0x100
+        (Properties="*DS-Replication-Get-Changes*"
+         OR Properties="*DS-Replication-Get-Changes-All*"
+         OR Properties="*DS-Replication-Get-Changes-In-Filtered-Set*")
+    | eval event_type="4662"
+    | eval account=lower(Account_Name)
+    | eval host=lower(ComputerName)
+    | eval replication_rights=Properties
+    | eval object=Object_Name
+    | fields _time event_type account host replication_rights object
+)
+OR
+(
+    search index=wineventlog EventCode=4624
+    | eval event_type="4624"
+    | eval account=lower(Account_Name)
+    | eval host=lower(ComputerName)
+    | eval source_ip=Source_Network_Address
+    | eval logon_type=Logon_Type
+    | fields _time event_type account host source_ip logon_type
+)
+| sort 0 account host _time
+| eval time_bucket=floor(_time/300)
+| stats
+    values(event_type) as event_types
+    values(replication_rights) as replication_rights
+    values(object) as objects
+    values(source_ip) as source_ips
+    values(logon_type) as logon_types
+    min(_time) as first_seen
+    max(_time) as last_seen
+    count(eval(event_type="4662")) as replication_events
+    count(eval(event_type="4624")) as logon_events
+    by account host time_bucket
+| where replication_events > 0
+| eval has_logon=if(logon_events > 0,1,0)
+| eval has_remote_source=if(
+    mvcount(mvfilter(
+        source_ips!="-" AND
+        source_ips!="0.0.0.0" AND
+        source_ips!="::1"
+    )) > 0,1,0)
+| eval suspicious_logon_type=if(
+    mvfind(logon_types,"3")>=0 OR
+    mvfind(logon_types,"9")>=0 OR
+    mvfind(logon_types,"10")>=0,
+    1,0
+)
+| eval risk_score=
+      40
+    + if(has_logon=1,15,0)
+    + if(has_remote_source=1,15,0)
+    + if(suspicious_logon_type=1,10,0)
+    + if(replication_events>=5,10,0)
+    + if(replication_events>=10,10,0)
+| eval severity=case(
+    risk_score>=80,"critical",
+    risk_score>=65,"high",
+    risk_score>=50,"medium",
+    true(),"low"
+)
+| convert ctime(first_seen) ctime(last_seen)
+| table first_seen last_seen host account source_ips
+        logon_types replication_rights objects
+        replication_events logon_events risk_score severity
+| sort - risk_score
 
 complex:
 index=wineventlog EventCode=4662 AccessMask=0x100
