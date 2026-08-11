@@ -3,4 +3,4 @@ index=wineventlog EventCode=4769 TicketEncryptionType=0x17
   values(Service_Name) as services 
   values(Account_Name) as users
   by Client_Address,_time
-| where count >= 5
+| where kerberos_requests >= 5
