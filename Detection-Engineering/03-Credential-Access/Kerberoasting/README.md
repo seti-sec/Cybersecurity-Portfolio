@@ -51,13 +51,13 @@ Trigger an alert when:
 
 ### Sigma Rule
 
-Kerberoasting.sigma.yml
+[Kerberoasting.sigma.yml](Kerberoasting.sigma.yml)
 
 ## Query
 
 ### SPL (Splunk)
 
-Kerberoasting.spl
+[Kerberoasting.spl](Kerberoasting.spl)
 
 ## Investigation Steps
 
@@ -102,7 +102,7 @@ The investigation identified suspicious Kerberos service ticket requests, indica
 
 Sample log file:
 
-Kerberoasting.json
+[Kerberoasting.json](Kerberoasting.json)
 
 ## Test Case
 
