@@ -73,9 +73,7 @@ Generate an alert when one or more of the following conditions are observed:
 
 ### Sigma
 
-```
-RDP.sigma.yml
-```
+[RDP.sigma.yml](RDP.sigma.yml)
 
 ### Splunk (SPL)
 
@@ -87,7 +85,7 @@ index=wineventlog EventCode=4624 Logon_Type=10
 ```
 
 ```
-RDP.spl
+[RDP.spl](RDP.spl)
 ```
 
 ### Microsoft Sentinel (KQL)
@@ -179,7 +177,7 @@ The investigation identified multiple successful RDP logons from a compromised w
 The detection was validated using simulated Windows Security Event 4624 logs.
 
 ```
-RDP.json
+[RDP.json](RDP.json)
 ```
 
 ### Test Case
