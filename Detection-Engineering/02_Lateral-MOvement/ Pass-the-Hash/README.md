@@ -53,13 +53,13 @@ Trigger an alert when:
 
 ### Sigma Rule
 
-Pass-the-Hash.sigma.yml
+[Pass-the-Hash.sigma.yml](./Pass-the-Hash.sigma.yml)
 
 ## Query
 
 ### SPL (Splunk)
 
-Pass-the-Hash.spl
+[Pass-the-Hash.spl](Pass-the-Hash.spl)
 
 ## Investigation Steps
 
@@ -104,7 +104,7 @@ The investigation identified suspicious NTLM authentication activity using privi
 
 Sample log file:
 
-Pass-the-Hash.json
+[Pass-the-Hash.json](Pass-the-Hash.json)
 
 ## Test Case
 
