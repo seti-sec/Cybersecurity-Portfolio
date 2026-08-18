@@ -51,13 +51,13 @@ Trigger an alert when:
 
 ### Sigma Rule
 
-Scheduled.sigma.yml
+[Scheduled.sigma.yml](Scheduled.sigma.yml)
 
 ## Query
 
 ### SPL (Splunk)
 
-Scheduled.spl
+[Scheduled.spl](Scheduled.spl)
 
 ## Investigation Steps
 
@@ -101,7 +101,7 @@ The investigation identified suspicious scheduled task creation, indicating poss
 
 Sample log file:
 
-Scheduled.json
+[Scheduled.json](Scheduled.json)
 
 ## Test Case
 
