@@ -51,13 +51,13 @@ Trigger an alert when:
 
 ### Sigma Rule
 
-PsExec.sigma.yml
+[PsExec.sigma.yml](PsExec.sigma.yml)
 
 ## Query
 
 ### SPL (Splunk)
 
-PsExec.spl
+[PsExec.spl](PsExec.spl)
 
 ## Investigation Steps
 
@@ -101,7 +101,7 @@ The investigation identified suspicious PsExec activity using privileged credent
 
 Sample log file:
 
-PsExec.json
+[PsExec.json](PsExec.json)
 
 ## Test Case
 
