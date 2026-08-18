@@ -50,13 +50,13 @@ Trigger an alert when:
 
 ### Sigma Rule
 
-DCSync.sigma.yml
+[DCSync.sigma.yml](DCSync.sigma.yml)
 
 ## Query
 
 ### SPL (Splunk)
 
-DCSync.spl
+[DCSync.spl](DCSync.spl)
 
 ## Investigation Steps
 
@@ -101,7 +101,7 @@ The investigation identified suspicious Active Directory replication activity, i
 
 Sample log file:
 
-DCSync.json
+[DCSync.json](DCSync.json)
 
 ## Test Case
 
