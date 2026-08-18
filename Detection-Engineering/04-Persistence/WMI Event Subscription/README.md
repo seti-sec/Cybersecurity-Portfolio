@@ -50,13 +50,13 @@ Trigger an alert when:
 
 ### Sigma Rule
 
-WMI Event Subscription.sigma.yml
+[WMI Event Subscription.sigma.yml](WMI Event Subscription.sigma.yml)
 
 ## Query
 
 ### SPL (Splunk)
 
-WMI Event Subscription.spl
+[WMI Event Subscription.spl](WMI Event Subscription.spl)
 
 ## Investigation Steps
 
@@ -100,7 +100,7 @@ The investigation identified suspicious WMI event subscription activity, indicat
 
 Sample log file:
 
-WMI Event Subscription.json
+[WMI Event Subscription.json](WMI Event Subscription.json)
 
 ## Test Case
 
