@@ -49,13 +49,13 @@ Trigger an alert when:
 
 ### Sigma Rule
 
-LSASS.sigma.yml
+[LSASS.sigma.yml](LSASS.sigma.yml)
 
 ## Query
 
 ### SPL (Splunk)
 
-LSASS.spl
+[LSASS.spl](LSASS.spl)
 
 ## Investigation Steps
 
@@ -100,7 +100,7 @@ The investigation identified suspicious access to LSASS memory, indicating possi
 
 Sample log file:
 
-LSASS.json
+[LSASS.json](LSASS.json)
 
 ## Test Case
 
