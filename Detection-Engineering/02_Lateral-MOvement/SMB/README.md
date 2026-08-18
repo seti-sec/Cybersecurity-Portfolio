@@ -53,7 +53,7 @@ Trigger an alert when:
 The Sigma detection rule is available here:
 
 ```
-SMB.sigma.yml
+[SMB.sigma.yml](SMB.sigma.yml)
 ```
 
 ## Query
@@ -69,7 +69,7 @@ index=wineventlog (EventCode=5140 OR EventCode=5145)
 The SPL detection rule is available here:
 
 ```
-SMB.spl
+[SMB.spl](SMB.spl)
 ```
 
 ### KQL (Microsoft Sentinel)
@@ -139,7 +139,7 @@ The detection was validated using simulated Windows Security Event 5140 and 5145
 Sample log file:
 
 ```
-SMB.json
+[SMB.json](SMB.json)
 ```
 
 ## Test Case
