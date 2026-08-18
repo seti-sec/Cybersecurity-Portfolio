@@ -50,7 +50,7 @@ Trigger an alert when:
 
 Sigma rule:
 
-WinRM.sigma.yml
+[WinRM.sigma.yml](WinRM.sigma.yml)
 
 ## Query
 
@@ -58,7 +58,7 @@ WinRM.sigma.yml
 
 Query:
 
-WinRM.spl
+[WinRM.spl](WinRM.spl)
 
 ## Investigation Steps
 
@@ -103,7 +103,7 @@ The investigation identified suspicious WinRM activity from a compromised workst
 
 Sample log file:
 
-WinRM.json
+[WinRM.json](WinRM.json)
 
 ## Test Case
 
