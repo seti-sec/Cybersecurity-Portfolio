@@ -48,13 +48,13 @@ Trigger an alert when:
 
 ### Sigma Rule
 
-Registry Run Keys.sigma.yml
+[Registry Run Keys.sigma.yml](Registry Run Keys.sigma.yml)
 
 ## Query
 
 ### SPL (Splunk)
 
-Registry Run Keys.spl
+[Registry Run Keys.spl](Registry Run Keys.spl)
 
 ## Investigation Steps
 
@@ -98,7 +98,7 @@ The investigation identified suspicious Registry Run Key modifications, indicati
 
 Sample log file:
 
-Registry Run Keys.json
+[Registry Run Keys.json](Registry Run Keys.json)
 
 ## Test Case
 
