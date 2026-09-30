@@ -1,1 +1,117 @@
-
+import random
+from datetime import datetime, timedelta
+from pathlib import Path
+import pandas as pd
+# ============================================================
+# Configuration
+# ============================================================
+OUTPUT_FILE = Path("data/synthetic_network_logs.csv")
+DESTINATION_IP = "10.10.10.50"
+DESTINATION_PORT = 443
+PROTOCOL = "TCP"
+START_TIME = datetime(2026, 9, 30, 10, 0, 0)
+# ============================================================
+# Source IP pools
+# ============================================================
+NORMAL_IPS = [
+    f"192.168.1.{i}"
+    for i in range(10, 61)
+]
+ATTACKER_IPS = [
+    f"203.0.113.{i}"
+    for i in range(1, 151)
+]
+# ============================================================
+# Generate normal traffic
+# ============================================================
+def generate_normal_traffic(timestamp):
+    return {
+        "timestamp": timestamp,
+        "src_ip": random.choice(NORMAL_IPS),
+        "src_port": random.randint(40000, 50000),
+        "dst_ip": DESTINATION_IP,
+        "dst_port": DESTINATION_PORT,
+        "protocol": PROTOCOL,
+        "bytes": random.randint(900, 1600),
+        "packets": random.randint(8, 15),
+        "request_count": random.randint(1, 3),
+        "status_code": random.choices(
+            [200, 304, 404],
+            weights=[90, 7, 3]
+        )[0],
+        "scenario": "NORMAL",
+    }
+# ============================================================
+# Generate DDoS traffic
+# ============================================================
+def generate_ddos_traffic(timestamp):
+    return {
+        "timestamp": timestamp,
+        "src_ip": random.choice(ATTACKER_IPS),
+        "src_port": random.randint(40000, 60000),
+        "dst_ip": DESTINATION_IP,
+        "dst_port": DESTINATION_PORT,
+        "protocol": PROTOCOL,
+        "bytes": random.randint(500, 900),
+        "packets": random.randint(5, 10),
+        "request_count": random.randint(20, 50),
+        "status_code": random.choices(
+            [503, 502, 429, 200],
+            weights=[55, 20, 15, 10]
+        )[0],
+        "scenario": "DDOS",
+    }
+# ============================================================
+# Generate recovery traffic
+# ============================================================
+def generate_recovery_traffic(timestamp):
+    return {
+        "timestamp": timestamp,
+        "src_ip": random.choice(NORMAL_IPS),
+        "src_port": random.randint(40000, 50000),
+        "dst_ip": DESTINATION_IP,
+        "dst_port": DESTINATION_PORT,
+        "protocol": PROTOCOL,
+        "bytes": random.randint(800, 1500),
+        "packets": random.randint(8, 14),
+        "request_count": random.randint(1, 4),
+        "status_code": random.choices(
+            [200, 304, 503],
+            weights=[85, 10, 5]
+        )[0],
+        "scenario": "RECOVERY",
+    }
+# ============================================================
+# Dataset generation
+# ============================================================
+def generate_dataset():
+    rows = []
+    current_time = START_TIME
+    # --------------------------------------------------------
+    # Phase 1: Normal traffic
+    # 10 minutes
+    # --------------------------------------------------------
+    for _ in range(600):
+        rows.append(
+            generate_normal_traffic(current_time)
+        )
+        current_time += timedelta(seconds=1)
+    # --------------------------------------------------------
+    # Phase 2: DDoS traffic
+    # 3 minutes
+    # --------------------------------------------------------
+    for _ in range(180):
+        requests_per_second = random.randint(20, 40)
+        for _ in range(requests_per_second):
+            rows.append(
+                generate_ddos_traffic(current_time)
+            )
+        current_time += timedelta(seconds=1)
+    # --------------------------------------------------------
+    # Phase 3: Recovery
+    # 5 minutes
+    # --------------------------------------------------------
+    for _ in range(300):
+        rows.append(
+            generate_recovery_traffic(current_time)
+        )
