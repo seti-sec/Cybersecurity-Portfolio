@@ -1,95 +1,106 @@
-import csv
-import random
-from datetime import datetime, timedelta
-from pathlib import Path
+import pandas as pd
 
-output = Path("data/synthetic_network_logs.csv")
 
-destination_ip = "10.10.10.50"
-destination_port = 443
+# ==========================================
+# Configuration
+# ==========================================
 
-normal_ips = [f"192.168.1.{i}" for i in range(10, 61)]
-attacker_ips = [f"203.0.113.{i}" for i in range(1, 151)]
+DATA_FILE = "data/synthetic_network_logs.csv"
 
-rows = []
+TARGET_IP = "10.10.10.50"
+TARGET_PORT = 443
 
-start = datetime(2026, 9, 30, 10, 0, 0)
 
-# NORMAL: 10 minutes
-for second in range(600):
-    timestamp = start + timedelta(seconds=second)
+# ==========================================
+# Load dataset
+# ==========================================
 
-    rows.append([
-        timestamp.isoformat(),
-        random.choice(normal_ips),
-        random.randint(40000, 50000),
-        destination_ip,
-        destination_port,
-        "TCP",
-        random.randint(900, 1600),
-        random.randint(8, 15),
-        random.randint(1, 3),
-        random.choice([200, 200, 200, 304, 404]),
-        "NORMAL"
-    ])
+df = pd.read_csv(DATA_FILE)
 
-# DDOS: 3 minutes
-for second in range(600, 780):
-    timestamp = start + timedelta(seconds=second)
+df["timestamp"] = pd.to_datetime(df["timestamp"])
 
-    for _ in range(random.randint(20, 40)):
-        rows.append([
-            timestamp.isoformat(),
-            random.choice(attacker_ips),
-            random.randint(40000, 60000),
-            destination_ip,
-            destination_port,
-            "TCP",
-            random.randint(500, 900),
-            random.randint(5, 10),
-            random.randint(20, 50),
-            random.choice([503, 503, 502, 429, 200]),
-            "DDOS"
-        ])
 
-# RECOVERY: 5 minutes
-for second in range(780, 1080):
-    timestamp = start + timedelta(seconds=second)
+# ==========================================
+# Filter normal traffic
+# ==========================================
 
-    rows.append([
-        timestamp.isoformat(),
-        random.choice(normal_ips),
-        random.randint(40000, 50000),
-        destination_ip,
-        destination_port,
-        "TCP",
-        random.randint(800, 1500),
-        random.randint(8, 14),
-        random.randint(1, 4),
-        random.choice([200, 200, 200, 304, 503]),
-        "RECOVERY"
-    ])
+normal = df[df["scenario"] == "NORMAL"].copy()
 
-output.parent.mkdir(parents=True, exist_ok=True)
 
-with output.open("w", newline="", encoding="utf-8") as file:
-    writer = csv.writer(file)
+# ==========================================
+# Baseline metrics
+# ==========================================
 
-    writer.writerow([
-        "timestamp",
-        "src_ip",
-        "src_port",
-        "dst_ip",
-        "dst_port",
-        "protocol",
-        "bytes",
-        "packets",
-        "request_count",
-        "status_code",
-        "scenario"
-    ])
+total_requests = normal["request_count"].sum()
 
-    writer.writerows(rows)
+unique_sources = normal["src_ip"].nunique()
 
-print(f"Created: {output}")
-print(f"Records: {len(rows)}")
+total_bytes = normal["bytes"].sum()
+
+total_packets = normal["packets"].sum()
+
+five_xx = normal[
+    normal["status_code"].between(500, 599)
+]
+
+five_xx_rate = (
+    len(five_xx) / len(normal) * 100
+    if len(normal) > 0
+    else 0
+)
+
+duration_seconds = (
+    normal["timestamp"].max()
+    - normal["timestamp"].min()
+).total_seconds()
+
+requests_per_second = (
+    total_requests / duration_seconds
+    if duration_seconds > 0
+    else 0
+)
+
+
+# ==========================================
+# Target analysis
+# ==========================================
+
+target_traffic = normal[
+    (normal["dst_ip"] == TARGET_IP)
+    & (normal["dst_port"] == TARGET_PORT)
+]
+
+
+target_ratio = (
+    len(target_traffic) / len(normal) * 100
+    if len(normal) > 0
+    else 0
+)
+
+
+# ==========================================
+# Print results
+# ==========================================
+
+print("=" * 60)
+print("DDoS Detection Lab - Baseline Traffic Analysis")
+print("=" * 60)
+
+print("\nDataset:")
+print(f"Total records       : {len(normal):,}")
+
+print("\nTraffic metrics:")
+print(f"Total requests     : {total_requests:,}")
+print(f"Requests/sec       : {requests_per_second:.2f}")
+print(f"Unique source IPs  : {unique_sources}")
+print(f"Total bytes        : {total_bytes:,}")
+print(f"Total packets      : {total_packets:,}")
+
+print("\nHTTP errors:")
+print(f"5xx rate           : {five_xx_rate:.2f}%")
+
+print("\nTarget analysis:")
+print(f"Target             : {TARGET_IP}:{TARGET_PORT}")
+print(f"Target traffic     : {target_ratio:.2f}%")
+
+print("\nBaseline analysis completed.")
